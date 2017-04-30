@@ -2,21 +2,23 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from './components/app';
+import PostsIndex from './components/posts_index';
 
-const Greeting = () => {
-  return <div>Hey there!</div>;
-};
-
+/* IndexRoute: the motivation for IndexRoute is that we always want to render
+   the App component for "/", which allows us to do things like add headers,
+   footers, and other styling which are always shown independently of any
+   other components.
+   IndexRoute is a feature of react-router which is rendered whenever the
+   route matches the parent, but none of its (nested) child routes. */
 export default (
-  // Whenever the URL is '/', show the component 'App'
-  // This is a *Nested Route* - the Greeting component is *nested* inside
-  // the App component. Therefore, App needs to render the Greeting component.
-  // If App doesn't render Greeting, then Greeting won't be displayed.
-  // Greeting (in each case) gets passed to app as a prop.children, therefore
-  // it can be used in the App component as this.props.children.
+
+  /* What we're saying here:
+      > if the route is /, show App, and show PostsIndex
+      > if the route is anything else, show App and the related Component
+     It essentially allows us to use App as a way to provide constant formatting
+     to the page, but still have a child component inside it when we just
+     want to match '/'. */
   <Route path="/" component={App}>
-    <Route path="greet" component={Greeting} />
-    <Route path="greet2" component={Greeting} />
-    <Route path="greet3" component={Greeting} />
+    <IndexRoute component={PostsIndex} />
   </Route>
 );
