@@ -1,7 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
+
+/* 'Link' is the React Router component used instead of an anchor tag, which
+   allows us to change the components being displayed rather than actually
+   navigating to a different URL. */
 
 class PostsIndex extends Component {
   /* componentDidMount is a 'react lifecycle event'. It gets called
@@ -40,6 +45,11 @@ class PostsIndex extends Component {
   render() {
     return (
       <div>
+        <div className="text-xs-right">
+          <Link className="btn btn-primary" to="/posts/new">
+            Add a Post
+          </Link>
+        </div>
         <h3>Posts</h3>
         <ul className="list-group">
           {this.renderPosts()}
