@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import promise from 'redux-promise';
 
 /* BrowserRouter is the code which interacts with the history library.
    Specifically, *Browser*Router means inspect the entire URL.
@@ -15,7 +16,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import reducers from './reducers';
 import PostsIndex from './components/posts_index';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 /* To wire up react-router, we replace the <App /> instance (previously
    between <Provider></Provider>) with an instance of BrowserRouter.
