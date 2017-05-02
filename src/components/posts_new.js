@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 /* reduxForm is a function which is very similar to the connect() helper
    from react-redux. It allows our component to communicate with the
@@ -36,23 +39,34 @@ class PostsNew extends Component {
      empty. However, we don't want to show any error messages until the
      user has 'touched' the field (entered some input) and tabbed or clicked
      away. Therefore, we check for the 'touched' state *and* the presence
-     of a validation error, otherwise don't show an error. */
+     of a validation error, otherwise don't show an error.
+
+     const { meta: { touched, error } }
+     This is ES6 called 'destructuring'. It pulls the 'meta' property off
+     the 'field' object and assigns it to a meta const. It can also be used
+     to pull sub-properties off the 'meta' object, which is the syntax
+     meta: { touched, error } - it assigns these to consts 'touched and
+     'error'. */
   renderField(field) {
+    const { meta: { touched, error } } = field;
+    const className = `form-group ${touched && error ? 'has-danger' : ''}`;
     return (
-      <div className="form-group">
+      <div className={className}>
         <label>{field.label}</label>
         <input
           className="form-control"
           type="text"
           {...field.input}
         />
-        {field.meta.touched ? field.meta.error : ''}
+        <div className="text-help">
+          {touched ? error : ''}
+        </div>
       </div>
     )
   }
 
   onSubmit(values) {
-    console.log(values);
+    this.props.createPost(values);
   }
 
   /* Any arbitrary properties added to a Field component are automatically
@@ -100,6 +114,7 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <button type="submit" className="btn btn-primary">Submit</button>
+        <Link className="btn btn-danger" to="/">Cancel</Link>
       </form>
     );
   }
@@ -144,4 +159,6 @@ function validate(values) {
 export default reduxForm({
   validate,
   form: 'PostsNewForm'
-})(PostsNew);
+})(
+  connect(null, { createPost})(PostsNew)
+);

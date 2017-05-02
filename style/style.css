@@ -1,0 +1,4 @@
+/* Margin for the cancel button (recall, <Link> componet changes to <a> tag). */
+form a {
+  margin-left: 5px;
+}
