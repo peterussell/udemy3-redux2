@@ -65,8 +65,20 @@ class PostsNew extends Component {
     )
   }
 
+  /* Because this Component is being rendered by React Router, we get passed
+     a bunch of props by React Router which we can use for navigation. One
+     of these is this.props.history, and push('/') automatically navigates
+     back to the root route (/).
+
+     However, we want to wait until createPost has got a successful response
+     from the back-end API *before we redirect. To do this we pass a callback
+     as the second arg to createPost. Then inside our Action Creator we can
+     call the callback only once the API call has completed. */
   onSubmit(values) {
-    this.props.createPost(values);
+    this.props.createPost(values, () => {
+      this.props.history.push('/');
+    });
+
   }
 
   /* Any arbitrary properties added to a Field component are automatically
